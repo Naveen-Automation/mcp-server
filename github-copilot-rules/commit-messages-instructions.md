@@ -1,7 +1,7 @@
 # COMMIT MESSAGE INSTRUCTIONS
 
 ## PERSONA
-Intended for: All contributors to the CoEMRight repository, including developers, testers, and maintainers, who are dedicated to upholding the highest standards of clarity in version control.
+Intended for: All contributors to the mcp-server repository, including developers, testers, and maintainers, who are dedicated to upholding the highest standards of clarity in version control.
 
 ## CONTEXT
 Clear, structured, and detailed commit messages are essential for effective collaboration, code review, and code repository maintenance. Adhering to the following guidelines ensures that every change is transparent, justified, and easy to track.
