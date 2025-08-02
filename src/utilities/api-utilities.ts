@@ -1,8 +1,12 @@
 import { request } from "@playwright/test";
 
 
-export async function sendPostRequest(url: string, options: any) {
+export async function sendPostRequest(url: string, headers: any, body: any) {
     try {
+        let options: any = {
+            "headers": headers,
+            "data": body
+        };
         const apiRequest: any = await request.newContext();
         const apiResponse: any = await apiRequest.post(url, options);
         if (!apiResponse.ok()) {
@@ -20,7 +24,8 @@ export async function sendPostRequest(url: string, options: any) {
         }
     } catch (error) {
         return {
-            content: [{ type: "text", text: `Error occurred while sending POST request: ${error instanceof Error ? error.message : String(error)}` }]
+            status: 0,
+            body: `Error occurred while sending POST request: ${error instanceof Error ? error.message : String(error)}`
         };
     }
 }
