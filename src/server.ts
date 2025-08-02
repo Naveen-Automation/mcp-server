@@ -16,11 +16,9 @@ const server = new McpServer({
 
 server.tool("send-post-request", "send the post request", {
     url: z.string(),
-    options: z.object({
-        data: z.any().optional(),
-        headers: z.record(z.string()).optional(),
-        timeout: z.number().optional()
-    }),
+    data: z.object({}).passthrough().optional(),
+    headers: z.object({}).passthrough().optional(),
+    timeout: z.number().optional()
 }, {
     title: "Send Post Request",
     readOnlyHint: false,
@@ -29,7 +27,7 @@ server.tool("send-post-request", "send the post request", {
     openWorldHint: false
 }, async (params) => {
     try {
-        const { status, body } = await sendPostRequest(params.url, params.options);
+        const { status, body } = await sendPostRequest(params.url, params.headers, params.data);
         return {
             content: [{
                 type: "text",
