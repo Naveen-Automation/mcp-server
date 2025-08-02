@@ -28,16 +28,17 @@ function buildUrlWithPathParams(url: string, pathParams?: any): string {
  * @param {string} url - The target URL for the POST request (can contain path parameter placeholders)
  * @param {any} headers - HTTP headers to include in the request
  * @param {any} body - Request body data to be sent with the POST request
- * @param {any} pathParams - Optional object containing path parameter values for URL template replacement
+ * @param {number} timeout - Request timeout in milliseconds (default: 30000ms)
  * @return {Promise<{status: number, body: any}>} Promise resolving to an object containing HTTP status code and response body
  * @author Veeranki Naveen Goud
  */
 
-export async function sendPostRequest(url: string, headers: any, body: any) {
+export async function sendPostRequest(url: string, headers: any, body: any, timeout: number = 30000) {
     try {
         let options: any = {
             "headers": headers,
-            "data": body
+            "data": body,
+            "timeout": timeout
         };
         const apiRequest: any = await request.newContext();
         const apiResponse: any = await apiRequest.post(url, options);
@@ -69,10 +70,11 @@ export async function sendPostRequest(url: string, headers: any, body: any) {
  * @param {any} headers - HTTP headers to include in the request
  * @param {any} pathParams - Optional object containing path parameter values for URL template replacement
  * @param {any} queryParams - Optional object containing query parameters to append to the URL
+ * @param {number} timeout - Request timeout in milliseconds (default: 30000ms)
  * @return {Promise<{status: number, body: any}>} Promise resolving to an object containing HTTP status code and response body
  * @author Veeranki Naveen Goud
  */
-export async function sendGetRequest(url: string, headers: any, pathParams?: any, queryParams?: any) {
+export async function sendGetRequest(url: string, headers: any, pathParams?: any, queryParams?: any, timeout: number = 30000) {
     try {
         let finalUrl = buildUrlWithPathParams(url, pathParams);
         
@@ -90,7 +92,8 @@ export async function sendGetRequest(url: string, headers: any, pathParams?: any
         }
 
         let options: any = {
-            "headers": headers
+            "headers": headers,
+            "timeout": timeout
         };
         const apiRequest: any = await request.newContext();
         const apiResponse: any = await apiRequest.get(finalUrl, options);
@@ -123,10 +126,11 @@ export async function sendGetRequest(url: string, headers: any, pathParams?: any
  * @param {any} body - Request body data containing the updated resource information
  * @param {any} pathParams - Optional object containing path parameter values for URL template replacement
  * @param {any} queryParams - Optional object containing query parameters to append to the URL
+ * @param {number} timeout - Request timeout in milliseconds (default: 30000ms)
  * @return {Promise<{status: number, body: any}>} Promise resolving to an object containing HTTP status code and response body
  * @author Veeranki Naveen Goud
  */
-export async function sendPutRequest(url: string, headers: any, body: any, pathParams?: any, queryParams?: any) {
+export async function sendPutRequest(url: string, headers: any, body: any, pathParams?: any, queryParams?: any, timeout: number = 30000) {
     try {
         let finalUrl = buildUrlWithPathParams(url, pathParams);
         
@@ -145,7 +149,8 @@ export async function sendPutRequest(url: string, headers: any, body: any, pathP
 
         let options: any = {
             "headers": headers,
-            "data": body
+            "data": body,
+            "timeout": timeout
         };
         const apiRequest: any = await request.newContext();
         const apiResponse: any = await apiRequest.put(finalUrl, options);
@@ -177,10 +182,11 @@ export async function sendPutRequest(url: string, headers: any, body: any, pathP
  * @param {any} headers - HTTP headers to include in the request
  * @param {any} pathParams - Optional object containing path parameter values for URL template replacement
  * @param {any} queryParams - Optional object containing query parameters to append to the URL
+ * @param {number} timeout - Request timeout in milliseconds (default: 30000ms)
  * @return {Promise<{status: number, body: any}>} Promise resolving to an object containing HTTP status code and response body
  * @author Veeranki Naveen Goud
  */
-export async function sendDeleteRequest(url: string, headers: any, pathParams?: any, queryParams?: any) {
+export async function sendDeleteRequest(url: string, headers: any, pathParams?: any, queryParams?: any, timeout: number = 30000) {
     try {
         let finalUrl = buildUrlWithPathParams(url, pathParams);
         
@@ -198,7 +204,8 @@ export async function sendDeleteRequest(url: string, headers: any, pathParams?: 
         }
 
         let options: any = {
-            "headers": headers
+            "headers": headers,
+            "timeout": timeout
         };
         const apiRequest: any = await request.newContext();
         const apiResponse: any = await apiRequest.delete(finalUrl, options);
