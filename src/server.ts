@@ -14,6 +14,10 @@ const server = new McpServer({
     }
 });
 
+/**
+ * MCP Tool: Send POST Request
+ * Creates or submits data to a server endpoint
+ */
 server.tool("send-post-request", "send the post request", {
     url: z.string(),
     data: z.object({}).passthrough().optional(),
@@ -27,7 +31,7 @@ server.tool("send-post-request", "send the post request", {
     openWorldHint: false
 }, async (params) => {
     try {
-        const { status, body } = await sendPostRequest(params.url, params.headers, params.data);
+        const { status, body } = await sendPostRequest(params.url, params.headers, params.data, params.timeout || 30000);
         return {
             content: [{
                 type: "text",
@@ -41,6 +45,10 @@ server.tool("send-post-request", "send the post request", {
     }
 });
 
+/**
+ * MCP Tool: Send GET Request
+ * Retrieves data from a server endpoint with path and query parameters
+ */
 server.tool("send-get-request", "send the get request", {
     url: z.string(),
     headers: z.object({}).passthrough().optional(),
@@ -55,7 +63,7 @@ server.tool("send-get-request", "send the get request", {
     openWorldHint: false
 }, async (params) => {
     try {
-        const { status, body } = await sendGetRequest(params.url, params.headers, params.pathParams, params.queryParams);
+        const { status, body } = await sendGetRequest(params.url, params.headers, params.pathParams, params.queryParams, params.timeout || 30000);
         return {
             content: [{
                 type: "text",
@@ -69,6 +77,10 @@ server.tool("send-get-request", "send the get request", {
     }
 });
 
+/**
+ * MCP Tool: Send PUT Request
+ * Updates existing data on a server endpoint
+ */
 server.tool("send-put-request", "send the put request", {
     url: z.string(),
     data: z.object({}).passthrough().optional(),
@@ -84,7 +96,7 @@ server.tool("send-put-request", "send the put request", {
     openWorldHint: false
 }, async (params) => {
     try {
-        const { status, body } = await sendPutRequest(params.url, params.headers, params.data, params.pathParams, params.queryParams);
+        const { status, body } = await sendPutRequest(params.url, params.headers, params.data, params.pathParams, params.queryParams, params.timeout || 30000);
         return {
             content: [{
                 type: "text",
@@ -98,6 +110,10 @@ server.tool("send-put-request", "send the put request", {
     }
 });
 
+/**
+ * MCP Tool: Send DELETE Request
+ * Deletes data from a server endpoint
+ */
 server.tool("send-delete-request", "send the delete request", {
     url: z.string(),
     headers: z.object({}).passthrough().optional(),
@@ -112,7 +128,7 @@ server.tool("send-delete-request", "send the delete request", {
     openWorldHint: false
 }, async (params) => {
     try {
-        const { status, body } = await sendDeleteRequest(params.url, params.headers, params.pathParams, params.queryParams);
+        const { status, body } = await sendDeleteRequest(params.url, params.headers, params.pathParams, params.queryParams,params.timeout || 30000);
         return {
             content: [{
                 type: "text",
