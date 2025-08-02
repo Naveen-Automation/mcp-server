@@ -33,15 +33,14 @@ function buildUrlWithPathParams(url: string, pathParams?: any): string {
  * @author Veeranki Naveen Goud
  */
 
-export async function sendPostRequest(url: string, headers: any, body: any, pathParams?: any) {
+export async function sendPostRequest(url: string, headers: any, body: any) {
     try {
-        const finalUrl = buildUrlWithPathParams(url, pathParams);
         let options: any = {
             "headers": headers,
             "data": body
         };
         const apiRequest: any = await request.newContext();
-        const apiResponse: any = await apiRequest.post(finalUrl, options);
+        const apiResponse: any = await apiRequest.post(url, options);
         if (!apiResponse.ok()) {
             throw new Error(`Request failed with status ${apiResponse.status()}`);
         }
