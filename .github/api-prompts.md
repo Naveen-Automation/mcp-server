@@ -1,12 +1,12 @@
 # Quick Sample Prompt
 
 ## Persona
-N/A
+- Not applicable
 
 ## Task
 - Use the appropriate available mcp server to send request using the below data items and print the response text and status.
 
-## Output Format
+## Expected Output Format
 - Also generate a html summary report of the outcome exatly same as attached file as template.
 
 ## Context
@@ -16,3 +16,17 @@ Below is are the details:
 - url is https://restful-booker.herokuapp.com/booking/id
 - use only one request header parameter content type equals to json
 
+## Contraints
+- Not applicable
+
+## Dependencies
+- Not applicable
+
+## Processing Logic
+- Not applicable
+
+## Validation Checklist
+- Not applicable
+
+## Quality Standards
+- Not applicable
