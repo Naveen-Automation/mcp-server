@@ -4,15 +4,16 @@
 - Not applicable
 
 ## Task
-- Use the appropriate available mcp server to send request using the below data items and print the response text and status.
+- Use the appropriate available mcp server to send api request using the below test data and display the html report.
 
 ## Expected Output Format
-- Also generate a html summary report of the outcome exatly same as attached file as template.
+- Also generate a html summary report of the outcome exatly same as `api-interaction-template.html` template file present in `root/sample-html-reports` folder.
+- Name the file as `Request Type-API Name`. For example if the request type is GET and it if the api name is GetBooking then report name should be `GET-getbooking`
 
-## Context
-Below is are the details:
+## Test Data
+Below are the details:
 - request type is GET 
-- The booking id 500
+- The booking id 605
 - url is https://restful-booker.herokuapp.com/booking/id
 - use only one request header parameter content type equals to json
 
