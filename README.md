@@ -20,9 +20,9 @@ The Playwright API MCP Server enables API testing via the Model Context Protocol
 
 - **Node.js** (v18.0.0 or higher)
 - **npm** (comes with Node.js)
-- **VS Code MCP extension** (MCP-compatible client)
+- **VS Code** (MCP-compatible client)
 
-> **Note:** If you are using VS Code, make sure the GitHub Copilot extension is installed and enabled
+**Note:** Make sure the GitHub Copilot extension is installed and enabled in VS Code
 
 
 ## 🚀 Setup
