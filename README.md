@@ -42,7 +42,7 @@ The Playwright API MCP Server enables API testing via the Model Context Protocol
 - Create `mcp.json` json file under `root/.vscode/` folder
 - Add the `api-testing-mcp` configurations as show below in the `mcp.json` file.
 
-<img src="./documentation/images/mcp-client-config.png" alt="MCP Client Config"/>
+<img src="./documentation/images/mcp-client-config.png" alt="MCP Client Config">
 
 
 ```json
@@ -67,7 +67,7 @@ For instance, in a monorepo setup where application and test code reside in sepa
 1. **Start the MCP Server**
  - Click the highlighted start button in the mcp.json file as shown below to start the MCP server.
 
-<img src="./documentation/images/server-start-button.png" alt="Server Start Button"/>
+<img src="./documentation/images/server-start-button.png" alt="Server Start Button">
 
 
 2. **Input the prompt**
@@ -78,7 +78,7 @@ For instance, in a monorepo setup where application and test code reside in sepa
   - Enter a prompt that outlines the API you wish to test.
   For example, to test a `POST` endpoint, your input should be like below:
 
-<img src="./documentation/images//mcp-usage.png" alt="MCP Usage"/>
+<img src="./documentation/images//mcp-usage.png" alt="MCP Usage">
 
       ### Sample Prompt to copy
      
@@ -105,7 +105,7 @@ For instance, in a monorepo setup where application and test code reside in sepa
      
   - LLM will call the right MCP server tools to process your request of testing the GET api with provided test data. The output would look like below:
   
-<img src="./documentation/images/post-execution.png" alt="Post Execution Insights"/>
+<img src="./documentation/images/post-execution.png" alt="Post Execution Insights">
 
 ## 🔧 Troubleshooting
 
