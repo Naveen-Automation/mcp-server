@@ -7,7 +7,7 @@ A ready-to-use Model Context Protocol (MCP) server for HTTP API testing, powered
 - [Overview](#overview)
 - [Prerequisites](#prerequisites)
 - [Setup](#installation)
-- [Configuration](#mcp-client-configuration)
+- [Configurations](#mcp-client-configuration)
 - [Usage](#usage)
 - [Troubleshooting](#troubleshooting)
 - [Support](#support)
@@ -35,7 +35,7 @@ The Playwright API MCP Server enables API testing via the Model Context Protocol
 
 
 
-## ⚙️ Configuration
+## ⚙️ Configurations
 
 ### VS Code:
 
