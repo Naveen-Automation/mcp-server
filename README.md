@@ -80,26 +80,20 @@ For instance, in a monorepo setup where application and test code reside in sepa
 
 <img src="./documentation/images//mcp-usage.png" alt="MCP Usage">
 
-      ### Sample Prompt to copy
+  ### Sample Prompt to copy
      
 ```text
 - Use the available MCP tools to test a GET API for with the following configuration:
 
     API Details to fetch booking details of id = 681
-
       1. Base URL: https://restful-booker.herokuapp.com
-
       2. Endpoint: booking/id
-
       3. Request Headers: Content-Type: application/json
-
       4. Request Body: Not Applicable
 
 - Generate an HTML test report with a clean, readable layout:
     1. Display request details (endpoint, headers, body) on the left side of the screen
-
     2. Display response details (status code, headers, body) on the right side of the screen
-
     3. Save the report as get-booking-details-by-id.html in the following directory: root/test-report/
 ```
      
