@@ -1,17 +1,17 @@
 {
-  "name": "@automate-io/playwright-api-mcp", 
-  "version": "0.0.1",
+  "name": "@automate-io/api-testing-mcp", 
+  "version": "0.0.4",
   "description": "MCP server for HTTP API testing with Playwright. Supports full CRUD operations, path/query parameters, and comprehensive error handling for API automation workflows.",
   "main": "dist/server.js", 
   "bin": {
-    "playwright-api-mcp": "dist/server.js"
+    "api-testing-mcp": "dist/server.js"
   },
   "publishConfig": {
     "access": "public"
   },
   "files": [
     "dist/**/*",
-    "README.md",
+    "npm-read-me.md",
     "LICENSE"
   ],
   "scripts": {
@@ -20,7 +20,7 @@
     "dev": "tsx src/server.ts",
     "inspect": "cross-env DANGEROUSLY_OMIT_AUTH=true node_modules\\.bin\\mcp-inspector node_modules\\.bin\\tsx src/server.ts"
   },
-  "keywords": ["mcp", "mcp-server", "ai", "api-automation"],
+  "keywords": ["mcp", "mcp-server", "ai", "api-automation" , "api-testing", "playwright-api-automation", "model-context-protocol", "http", "rest"],
   "author": "Veeranki Naveen Goud",
   "license": "MIT",
   "repository": {
