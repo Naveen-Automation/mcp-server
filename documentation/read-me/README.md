@@ -42,7 +42,7 @@ The Playwright API MCP Server enables API testing via the Model Context Protocol
 - Create `mcp.json` json file under `root/.vscode/` folder
 - Add the `api-testing-mcp` configurations as show below in the `mcp.json` file.
 
-<img src="./documentation/screen-shots/mcp-client-config.jpg" alt="MCP Client Config">
+<img src="./documentation/screen-shots/mcp-client-config.png" alt="MCP Client Config">
 
 
 ```json
