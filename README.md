@@ -143,7 +143,7 @@ For instance, in a monorepo setup where application and test code reside in sepa
 ## 🆘 Support
 
 - Review this guide and your MCP client documentation.
-- For issues, visit the [GitHub repository](https://github.com/Naveen-Automation/mcp-server) or open an issue.
+- For issues, open [GitHub Issues](https://github.com/Naveen-Automation/mcp-server/issues) here.
 - Consult [Model Context Protocol Documentation](https://modelcontextprotocol.io/).
 
 ---
