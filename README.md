@@ -31,19 +31,31 @@ The Playwright API MCP Server enables API testing via the Model Context Protocol
 
 ## 📋 Prerequisites
 
-- **Node.js** (v18.0.0 or higher)
-- **npm** (comes with Node.js)
-- **VS Code** (MCP-compatible client)
-- **Github Copilot** Make sure the GitHub Copilot extension is installed and enabled in VS Code.<br>  Watch the Video to enable Github Copilot: https://www.youtube.com/watch?v=etP5wq4Zl20
+- **Node.js**: v18.0.0 or higher.
+- **npm**: Comes with Node.js.
+- **VS Code**: MCP-compatible client.
+- **Github Copilot**: Make sure the GitHub Copilot extension is installed and enabled in VS Code.<br>  Watch the video to understand how to enable Github Copilot: https://www.youtube.com/watch?v=etP5wq4Zl20
 - **How to use Github Copilot for free** Watch the Video: https://www.youtube.com/watch?v=X_Aet9ndh_Y
 <br>
 <br>
 
 
 ## 🚀 Setup
+1. **Create a Node.js Project in VS Cod**
+- Create a new folder with a meaningful name (e.g. `my-project`).
+- Open the folder in Visual Studio Code.
+- Launch the integrated terminal (via `View > Terminal`).
+- Choose your preferred shell (e.g. `Git Bash, Command Prompt, or PowerShell`).
+- Run the following command to initialise the project:
+  ```
+  npm init -y
+  ```
+- This will generate a package.json file with default settings
 
-1. **Install the MCP Server Package**  
-   Run the below command in terminal (`cmd` or `git bash` or `powershell`):
+  <br>
+
+2. **Install the MCP Server Package**  
+   Now, run the below command to install the mcp server package.
    ```bash
    npm i @automate-io/api-testing-mcp@latest
    ```
@@ -72,8 +84,10 @@ If the file is already present, you can skip this step
       "inputs": []
     }
     ```
-- Note: Update the cwd (current working directory) value if your node_modules aren't located at the root.
-For instance, in a monorepo setup where application and test code reside in separate folders with their own package.json files, adjust `cwd` value accordingly
+- **❗Important Note**:If you are working in a `monorepo`, ensure the `args` field in your `mcp.json` file is correctly configured. Refer to the [Monorepo MCP Configuration](./documentation/read-me/mcp-config-monorepo-vs-standalone.md) guide for detailed instructions.<br>
+If your test code resides in a `standalone` repository, no changes are needed, you are good to go.
+
+
 <br>
 <br>
 
