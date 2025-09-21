@@ -1,8 +1,8 @@
 {
-  "name": "@automate-io/api-testing-mcp", 
-  "version": "0.0.8",
+  "name": "@automate-io/api-testing-mcp",
+  "version": "0.0.9",
   "description": "MCP server for HTTP API testing with Playwright. Supports full CRUD operations, path/query parameters, and comprehensive error handling for API automation workflows.",
-  "main": "dist/server.js", 
+  "main": "dist/server.js",
   "bin": {
     "api-testing-mcp": "dist/server.js"
   },
@@ -19,7 +19,17 @@
     "dev": "tsx src/server.ts",
     "inspect": "cross-env DANGEROUSLY_OMIT_AUTH=true node_modules\\.bin\\mcp-inspector node_modules\\.bin\\tsx src/server.ts"
   },
-  "keywords": ["mcp", "mcp-server", "ai", "api-automation" , "api-testing", "playwright-api-automation", "model-context-protocol", "http", "rest"],
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "ai",
+    "api-automation",
+    "api-testing",
+    "playwright-api-automation",
+    "model-context-protocol",
+    "http",
+    "rest"
+  ],
   "author": "Veeranki Naveen Goud",
   "license": "MIT",
   "repository": {
@@ -31,16 +41,16 @@
   },
   "homepage": "https://github.com/Naveen-Automation/mcp-server#readme",
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.17.1",
-    "@playwright/test": "^1.54.2",
-    "zod": "^3.25.76"
+    "@modelcontextprotocol/sdk": "1.18.1",
+    "@playwright/test": "1.55.0",
+    "zod": "4.1.11"
   },
   "devDependencies": {
-    "@modelcontextprotocol/inspector": "^0.16.2",
-    "@types/node": "^24.1.0",
-    "cross-env": "^10.0.0",
-    "tsx": "^4.20.3",
-    "typescript": "^5.9.2"
+    "@modelcontextprotocol/inspector": "0.16.8",
+    "@types/node": "24.5.2",
+    "cross-env": "10.0.0",
+    "tsx": "4.20.5",
+    "typescript": "5.9.2"
   },
   "engines": {
     "node": ">=18.0.0"
