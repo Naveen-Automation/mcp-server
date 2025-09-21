@@ -1,8 +1,8 @@
 #!/usr/bin/env node ;
 
-import { McpServer } from "@modelcontextprotocol/sdk/server/mcp";
-import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio";
-import { registerMcpTools } from "../tools/tools";
+import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+import { registerMcpTools } from "../tools/tools.js";
 
 // Creating MCP Server instance
 let server = new McpServer({
