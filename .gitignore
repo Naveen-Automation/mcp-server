@@ -2,3 +2,4 @@ node_modules
 src/utilities/test.js
 dist/
 test-data/
+github-copilot-rules/
