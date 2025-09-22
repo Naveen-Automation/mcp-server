@@ -12,22 +12,22 @@ Clear, structured, and detailed commit messages are essential for effective coll
 Clearly describe all file changes and the rationale behind each modification. Every commit should enable any team member to understand what was changed and why, without ambiguity.
 
 ### 2. Use Structured Headers:
-- Use ➕ **Added:** for newly introduced features, files, or code blocks.
-- Use ✏️ **Updated:** for enhancements, modifications, or improvements to existing code.
-- Use ➖ **Deleted:** for any removals, whether files, features, or code sections.
+- Use ➕ Added: for newly introduced features, files, or code blocks.
+- Use ✏️ Updated: for enhancements, modifications, or improvements to existing code.
+- Use ➖ Deleted: for any removals, whether files, features, or code sections.
 
 ### 3. Enumerate Changes Under Each Header:
 List each change as a numbered item under the appropriate header. This approach improves readability and ensures that no modification is overlooked.
 
 ## Example Commit Message Format
 
-➕ **Added:**
+➕ Added:
 1. Implemented user authentication logic in `auth.service.ts` to verify the user.
 2. Introduced new API endpoint for user registration in `user.controller.ts` to allow user registration via API calls.
 
-✏️ **Updated:**
+✏️ Updated:
 1. Refactored error handling in `login.component.ts` for improved user feedback.
 2. Enhanced logging in `app.module.ts` to include request IDs.
 
-➖ **Deleted:**
+➖ Deleted:
 1. Removed deprecated `legacy-auth.ts` module to avoid compatibility issues.
