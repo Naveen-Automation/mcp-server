@@ -7,7 +7,7 @@ import { sendPostRequest, sendGetRequest, sendPutRequest, sendDeleteRequest } fr
 
 
 const server = new McpServer({
-    name: "API Automation MCP Server",
+    name: "API Testing MCP Server",
     version: "0.0.1",
     capabilities: {
         resources: {},
@@ -153,7 +153,6 @@ server.tool("send-delete-request", "send the delete request", {
  * connects the server using the provided transport, and logs a message
  * indicating that the MCP Server is running.
  * @returns {Promise<void>} A promise that resolves when the server has started.
- * 
  * @author Veeranki Naveen Goud
  */
 async function main(): Promise<void> {
