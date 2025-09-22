@@ -7,7 +7,7 @@
 Base URL of the API:  https://fakerestapi.azurewebsites.net
 
 ## Expected Output Format
-- Also generate a html summary report of the outcome exatly same as `consolidated-api-testing-report.html` template file present in `node_modules/@automate-io/api-testing-mcp/dist/tesmplates` folder.
+- Also generate a html summary report of the outcome exatly same as `consolidated-test-results-template.html` template file present in `root` folder.
 - Name the file as `Request Type-API Name`. For example if the request type is GET and it if the api name is GetBooking then report name should be `GET-getbooking`
 
 ## Persona
