@@ -1,5 +1,5 @@
 import z from "zod";
-import { sendPostRequest, sendGetRequest, sendPutRequest, sendDeleteRequest } from "../utilities/api-utilities";
+import { sendPostRequest, sendGetRequest, sendPutRequest, sendDeleteRequest } from "../utilities/api-utilities.js";
 
 /**
  * @description Registers MCP tools to the provided server instance.
