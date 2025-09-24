@@ -37,8 +37,7 @@ The Playwright API MCP Server enables API testing via the Model Context Protocol
 - **npm**: Comes with Node.js.
 - **VS Code**: MCP-compatible client.
 - **Github Copilot**: Make sure the GitHub Copilot extension is installed and enabled in VS Code.<br>  Watch the video to understand how to enable Github Copilot: https://www.youtube.com/watch?v=etP5wq4Zl20
-- **How to use Github Copilot for free** Watch the Video: https://www.youtube.com/watch?v=X_Aet9ndh_Y
-<br>
+- **How to use Github Copilot for free** Watch the Video: https://www.youtube.com/watch?v=X_Aet9ndh_Y <br>
 <br>
 
 
@@ -110,7 +109,6 @@ If your test code resides in a `standalone` repository, no changes are needed, y
     
   - [Scenario 1](./documentation/read-me//scenario1.md) : To test all endpoints in one go.<br>
   - [Scenario 2](./documentation//read-me//scenario2.md) : To test a single endpoint.
-
 <br>
 <br>
 
