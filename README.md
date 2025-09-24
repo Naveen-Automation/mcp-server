@@ -28,6 +28,7 @@ A ready-to-use Model Context Protocol (MCP) server for HTTP API testing, powered
 ## 🌟 Overview   
 
 The Playwright API MCP Server enables API testing via the Model Context Protocol. It supports GET, POST, PUT, and DELETE requests.
+
 <br>
 <br>
 
@@ -144,7 +145,7 @@ If your test code resides in a `standalone` repository, no changes are needed, y
 <br>
 
 
-**Happy API Testing! 🚀**
+**Enjoy exploring and validating your APIs! 🚀**
 
 
 
