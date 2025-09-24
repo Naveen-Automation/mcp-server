@@ -111,6 +111,8 @@ If your test code resides in a `standalone` repository, no changes are needed, y
   - [Scenario 1](./documentation/read-me//scenario1.md) : To test all endpoints in one go.
   <br>
   - [Scenario 2](./documentation//read-me//scenario2.md) : To test a single endpoint.
+
+  ❗ Note: Use your actual application endpoints for testing.
 <br>
 <br>
 
@@ -120,6 +122,7 @@ If your test code resides in a `standalone` repository, no changes are needed, y
 - Add reusable resources to support API testing workflows  
 - Introduce predefined prompts to streamline common scenarios
 - Provide a sample HTML test report template to guide LLm about the layout and formatting
+-  Refactor existing logic and implement robust error handling to improve reliability and maintainability
 <br>
 <br>
 
