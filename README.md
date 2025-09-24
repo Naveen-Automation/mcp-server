@@ -108,11 +108,9 @@ If your test code resides in a `standalone` repository, no changes are needed, y
 
   ## ✅ Example scenarios and prompts for MCP server usage
     
-  - [Scenario 1](./documentation/read-me//scenario1.md) : To test all endpoints in one go.
-  <br>
+  - [Scenario 1](./documentation/read-me//scenario1.md) : To test all endpoints in one go.<br>
   - [Scenario 2](./documentation//read-me//scenario2.md) : To test a single endpoint.
 
-❗ Note: Use your actual application endpoints for testing.
 <br>
 <br>
 
