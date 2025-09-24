@@ -145,7 +145,7 @@ If your test code resides in a `standalone` repository, no changes are needed, y
 <br>
 
 
-**Enjoy exploring and validating your APIs! 🚀**
+## 👍 Enjoy exploring and validating your APIs !
 
 
 
