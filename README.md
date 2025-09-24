@@ -112,7 +112,7 @@ If your test code resides in a `standalone` repository, no changes are needed, y
   <br>
   - [Scenario 2](./documentation//read-me//scenario2.md) : To test a single endpoint.
 
-  ❗ Note: Use your actual application endpoints for testing.
+❗ Note: Use your actual application endpoints for testing.
 <br>
 <br>
 
