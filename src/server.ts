@@ -214,7 +214,7 @@ server.tool("send-delete-request", "send the delete request", {
     openWorldHint: false
 }, async (params) => {
     try {
-        const { status, body } = await sendDeleteRequest(params.url, params.headers, params.pathParams, params.queryParams,params.timeout || 30000);
+        const { status, body } = await sendDeleteRequest(params.url, params.headers, params.pathParams, params.queryParams, params.timeout || 30000);
         
         // Check if the response contains an error from the utility function
         if (status === 0 || (body && typeof body === 'object' && body.error === true)) {
@@ -271,7 +271,7 @@ async function main(): Promise<void> {
     try {
         const transport = new StdioServerTransport();
         await server.connect(transport);
-        console.error("✅ MCP Server is running successfully...");
+        console.log("✅ MCP Server is running successfully...");
     } catch (error) {
         console.error("❌ Failed to start MCP Server");
         console.error("Error details:", error instanceof Error ? error.message : String(error));

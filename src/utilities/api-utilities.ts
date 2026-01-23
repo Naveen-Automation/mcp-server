@@ -78,6 +78,87 @@ async function parseResponseBody(apiResponse: any, method: string, url: string):
 }
 
 /**
+ * @description Generates a detailed error message for HTTP status errors
+ * @param {string} method - HTTP method (GET, POST, PUT, DELETE)
+ * @param {number} status - HTTP status code
+ * @param {string} url - The URL that was requested
+ * @param {any} responseBody - The response body from the server
+ * @return {object} Structured error response
+ * @author Veeranki Naveen Goud
+ */
+function createHttpStatusError(method: string, status: number, url: string, responseBody: any) {
+    return {
+        error: true,
+        message: `${method} request failed with HTTP status ${status}`,
+        details: `The server responded with status ${status} which indicates an error. Common causes:\n` +
+                 `- Status 400-499: Client errors (bad request, unauthorized, not found, etc.)\n` +
+                 `- Status 500-599: Server errors (internal server error, service unavailable, etc.)\n` +
+                 `URL: ${url}\n` +
+                 `Response: ${JSON.stringify(responseBody, null, 2)}`,
+        url,
+        statusCode: status,
+        response: responseBody
+    };
+}
+
+/**
+ * @description Generates detailed error information based on error type
+ * @param {Error | unknown} error - The error that occurred
+ * @param {string} method - HTTP method (GET, POST, PUT, DELETE)
+ * @param {string} url - The URL that was requested
+ * @param {number} timeout - Timeout value in milliseconds
+ * @return {object} Structured error response with message and details
+ * @author Veeranki Naveen Goud
+ */
+function createDetailedError(error: unknown, method: string, url: string, timeout: number) {
+    let errorMessage = `An unexpected error occurred while sending ${method} request.`;
+    let errorDetails = '';
+    
+    if (error instanceof Error) {
+        if (error.message.includes('timeout') || error.message.includes('Timeout')) {
+            errorMessage = 'Request timeout';
+            errorDetails = `The ${method} request to ${url} timed out after ${timeout}ms. ` +
+                          `This usually means:\n` +
+                          `- The server is taking too long to respond\n` +
+                          `- The server may be down or unreachable\n` +
+                          `- Network connectivity issues\n` +
+                          `\nSuggestions:\n` +
+                          `- Increase the timeout value if the endpoint is known to be slow\n` +
+                          `- Check if the server is running and accessible\n` +
+                          `- Verify your network connection`;
+        } else if (error.message.includes('ECONNREFUSED')) {
+            errorMessage = 'Connection refused';
+            errorDetails = `Could not connect to ${url}. The connection was refused. ` +
+                          `This usually means:\n` +
+                          `- The server is not running at the specified URL\n` +
+                          `- The port is incorrect\n` +
+                          `- A firewall is blocking the connection\n` +
+                          `\nPlease verify the URL and ensure the server is running.`;
+        } else if (error.message.includes('ENOTFOUND') || error.message.includes('getaddrinfo')) {
+            errorMessage = 'Host not found';
+            errorDetails = `Could not resolve hostname in URL: ${url}. ` +
+                          `This usually means:\n` +
+                          `- The domain name is misspelled\n` +
+                          `- The domain does not exist\n` +
+                          `- DNS resolution issues\n` +
+                          `\nPlease check the URL and try again.`;
+        } else if (error.message.includes('Invalid URL') || error.message.includes('URL is required')) {
+            errorMessage = error.message;
+            errorDetails = '';
+        } else {
+            errorMessage = error.message;
+            errorDetails = `URL: ${url}\nTimeout: ${timeout}ms`;
+        }
+    }
+    
+    return {
+        error: true,
+        message: errorMessage,
+        details: errorDetails,
+        url,
+        originalError: error instanceof Error ? error.message : String(error)
+    };
+}
 
 /**
  * @description Sends an HTTP POST request to the specified URL with headers, body data, and optional path parameters.
@@ -102,6 +183,11 @@ export async function sendPostRequest(url: string, headers: any, body: any, time
             throw new Error(`Invalid timeout value: ${timeout}ms. Timeout must be greater than 0. Recommended value: 30000ms (30 seconds).`);
         }
         
+        // Validate headers if provided
+        if (headers && (typeof headers !== 'object' || Array.isArray(headers))) {
+            throw new Error('Headers must be an object containing key-value pairs. Example: {"Content-Type": "application/json"}');
+        }
+        
         let options: any = {
             "headers": headers || {},
             "data": body,
@@ -119,18 +205,7 @@ export async function sendPostRequest(url: string, headers: any, body: any, time
         if (!apiResponse.ok()) {
             return {
                 status,
-                body: {
-                    error: true,
-                    message: `POST request failed with HTTP status ${status}`,
-                    details: `The server responded with status ${status} which indicates an error. Common causes:\n` +
-                             `- Status 400-499: Client errors (bad request, unauthorized, not found, etc.)\n` +
-                             `- Status 500-599: Server errors (internal server error, service unavailable, etc.)\n` +
-                             `URL: ${url}\n` +
-                             `Response: ${JSON.stringify(responseBody, null, 2)}`,
-                    url,
-                    statusCode: status,
-                    response: responseBody
-                }
+                body: createHttpStatusError('POST', status, url, responseBody)
             };
         }
         
@@ -146,56 +221,9 @@ export async function sendPostRequest(url: string, headers: any, body: any, time
             }
         }
         
-        // Provide detailed error information based on error type
-        let errorMessage = 'An unexpected error occurred while sending POST request.';
-        let errorDetails = '';
-        
-        if (error instanceof Error) {
-            if (error.message.includes('timeout') || error.message.includes('Timeout')) {
-                errorMessage = 'Request timeout';
-                errorDetails = `The POST request to ${url} timed out after ${timeout}ms. ` +
-                              `This usually means:\n` +
-                              `- The server is taking too long to respond\n` +
-                              `- The server may be down or unreachable\n` +
-                              `- Network connectivity issues\n` +
-                              `\nSuggestions:\n` +
-                              `- Increase the timeout value if the endpoint is known to be slow\n` +
-                              `- Check if the server is running and accessible\n` +
-                              `- Verify your network connection`;
-            } else if (error.message.includes('ECONNREFUSED')) {
-                errorMessage = 'Connection refused';
-                errorDetails = `Could not connect to ${url}. The connection was refused. ` +
-                              `This usually means:\n` +
-                              `- The server is not running at the specified URL\n` +
-                              `- The port is incorrect\n` +
-                              `- A firewall is blocking the connection\n` +
-                              `\nPlease verify the URL and ensure the server is running.`;
-            } else if (error.message.includes('ENOTFOUND') || error.message.includes('getaddrinfo')) {
-                errorMessage = 'Host not found';
-                errorDetails = `Could not resolve hostname in URL: ${url}. ` +
-                              `This usually means:\n` +
-                              `- The domain name is misspelled\n` +
-                              `- The domain does not exist\n` +
-                              `- DNS resolution issues\n` +
-                              `\nPlease check the URL and try again.`;
-            } else if (error.message.includes('Invalid URL') || error.message.includes('URL is required')) {
-                errorMessage = error.message;
-                errorDetails = '';
-            } else {
-                errorMessage = error.message;
-                errorDetails = `URL: ${url}\nTimeout: ${timeout}ms`;
-            }
-        }
-        
         return {
             status: 0,
-            body: {
-                error: true,
-                message: errorMessage,
-                details: errorDetails,
-                url,
-                originalError: error instanceof Error ? error.message : String(error)
-            }
+            body: createDetailedError(error, 'POST', url, timeout)
         };
     }
 }
@@ -221,6 +249,11 @@ export async function sendGetRequest(url: string, headers: any, pathParams?: any
         // Validate timeout
         if (timeout <= 0) {
             throw new Error(`Invalid timeout value: ${timeout}ms. Timeout must be greater than 0. Recommended value: 30000ms (30 seconds).`);
+        }
+        
+        // Validate headers if provided
+        if (headers && (typeof headers !== 'object' || Array.isArray(headers))) {
+            throw new Error('Headers must be an object containing key-value pairs. Example: {"Content-Type": "application/json"}');
         }
         
         let finalUrl = buildUrlWithPathParams(url, pathParams);
@@ -254,18 +287,7 @@ export async function sendGetRequest(url: string, headers: any, pathParams?: any
         if (!apiResponse.ok()) {
             return {
                 status,
-                body: {
-                    error: true,
-                    message: `GET request failed with HTTP status ${status}`,
-                    details: `The server responded with status ${status} which indicates an error. Common causes:\n` +
-                             `- Status 400-499: Client errors (bad request, unauthorized, not found, etc.)\n` +
-                             `- Status 500-599: Server errors (internal server error, service unavailable, etc.)\n` +
-                             `URL: ${finalUrl}\n` +
-                             `Response: ${JSON.stringify(responseBody, null, 2)}`,
-                    url: finalUrl,
-                    statusCode: status,
-                    response: responseBody
-                }
+                body: createHttpStatusError('GET', status, finalUrl, responseBody)
             };
         }
         
@@ -281,56 +303,9 @@ export async function sendGetRequest(url: string, headers: any, pathParams?: any
             }
         }
         
-        // Provide detailed error information based on error type
-        let errorMessage = 'An unexpected error occurred while sending GET request.';
-        let errorDetails = '';
-        
-        if (error instanceof Error) {
-            if (error.message.includes('timeout') || error.message.includes('Timeout')) {
-                errorMessage = 'Request timeout';
-                errorDetails = `The GET request to ${url} timed out after ${timeout}ms. ` +
-                              `This usually means:\n` +
-                              `- The server is taking too long to respond\n` +
-                              `- The server may be down or unreachable\n` +
-                              `- Network connectivity issues\n` +
-                              `\nSuggestions:\n` +
-                              `- Increase the timeout value if the endpoint is known to be slow\n` +
-                              `- Check if the server is running and accessible\n` +
-                              `- Verify your network connection`;
-            } else if (error.message.includes('ECONNREFUSED')) {
-                errorMessage = 'Connection refused';
-                errorDetails = `Could not connect to ${url}. The connection was refused. ` +
-                              `This usually means:\n` +
-                              `- The server is not running at the specified URL\n` +
-                              `- The port is incorrect\n` +
-                              `- A firewall is blocking the connection\n` +
-                              `\nPlease verify the URL and ensure the server is running.`;
-            } else if (error.message.includes('ENOTFOUND') || error.message.includes('getaddrinfo')) {
-                errorMessage = 'Host not found';
-                errorDetails = `Could not resolve hostname in URL: ${url}. ` +
-                              `This usually means:\n` +
-                              `- The domain name is misspelled\n` +
-                              `- The domain does not exist\n` +
-                              `- DNS resolution issues\n` +
-                              `\nPlease check the URL and try again.`;
-            } else if (error.message.includes('Invalid URL') || error.message.includes('URL is required')) {
-                errorMessage = error.message;
-                errorDetails = '';
-            } else {
-                errorMessage = error.message;
-                errorDetails = `URL: ${url}\nTimeout: ${timeout}ms`;
-            }
-        }
-        
         return {
             status: 0,
-            body: {
-                error: true,
-                message: errorMessage,
-                details: errorDetails,
-                url,
-                originalError: error instanceof Error ? error.message : String(error)
-            }
+            body: createDetailedError(error, 'GET', url, timeout)
         };
     }
 }
@@ -357,6 +332,11 @@ export async function sendPutRequest(url: string, headers: any, body: any, pathP
         // Validate timeout
         if (timeout <= 0) {
             throw new Error(`Invalid timeout value: ${timeout}ms. Timeout must be greater than 0. Recommended value: 30000ms (30 seconds).`);
+        }
+        
+        // Validate headers if provided
+        if (headers && (typeof headers !== 'object' || Array.isArray(headers))) {
+            throw new Error('Headers must be an object containing key-value pairs. Example: {"Content-Type": "application/json"}');
         }
         
         let finalUrl = buildUrlWithPathParams(url, pathParams);
@@ -391,18 +371,7 @@ export async function sendPutRequest(url: string, headers: any, body: any, pathP
         if (!apiResponse.ok()) {
             return {
                 status,
-                body: {
-                    error: true,
-                    message: `PUT request failed with HTTP status ${status}`,
-                    details: `The server responded with status ${status} which indicates an error. Common causes:\n` +
-                             `- Status 400-499: Client errors (bad request, unauthorized, not found, etc.)\n` +
-                             `- Status 500-599: Server errors (internal server error, service unavailable, etc.)\n` +
-                             `URL: ${finalUrl}\n` +
-                             `Response: ${JSON.stringify(responseBody, null, 2)}`,
-                    url: finalUrl,
-                    statusCode: status,
-                    response: responseBody
-                }
+                body: createHttpStatusError('PUT', status, finalUrl, responseBody)
             };
         }
         
@@ -418,56 +387,9 @@ export async function sendPutRequest(url: string, headers: any, body: any, pathP
             }
         }
         
-        // Provide detailed error information based on error type
-        let errorMessage = 'An unexpected error occurred while sending PUT request.';
-        let errorDetails = '';
-        
-        if (error instanceof Error) {
-            if (error.message.includes('timeout') || error.message.includes('Timeout')) {
-                errorMessage = 'Request timeout';
-                errorDetails = `The PUT request to ${url} timed out after ${timeout}ms. ` +
-                              `This usually means:\n` +
-                              `- The server is taking too long to respond\n` +
-                              `- The server may be down or unreachable\n` +
-                              `- Network connectivity issues\n` +
-                              `\nSuggestions:\n` +
-                              `- Increase the timeout value if the endpoint is known to be slow\n` +
-                              `- Check if the server is running and accessible\n` +
-                              `- Verify your network connection`;
-            } else if (error.message.includes('ECONNREFUSED')) {
-                errorMessage = 'Connection refused';
-                errorDetails = `Could not connect to ${url}. The connection was refused. ` +
-                              `This usually means:\n` +
-                              `- The server is not running at the specified URL\n` +
-                              `- The port is incorrect\n` +
-                              `- A firewall is blocking the connection\n` +
-                              `\nPlease verify the URL and ensure the server is running.`;
-            } else if (error.message.includes('ENOTFOUND') || error.message.includes('getaddrinfo')) {
-                errorMessage = 'Host not found';
-                errorDetails = `Could not resolve hostname in URL: ${url}. ` +
-                              `This usually means:\n` +
-                              `- The domain name is misspelled\n` +
-                              `- The domain does not exist\n` +
-                              `- DNS resolution issues\n` +
-                              `\nPlease check the URL and try again.`;
-            } else if (error.message.includes('Invalid URL') || error.message.includes('URL is required')) {
-                errorMessage = error.message;
-                errorDetails = '';
-            } else {
-                errorMessage = error.message;
-                errorDetails = `URL: ${url}\nTimeout: ${timeout}ms`;
-            }
-        }
-        
         return {
             status: 0,
-            body: {
-                error: true,
-                message: errorMessage,
-                details: errorDetails,
-                url,
-                originalError: error instanceof Error ? error.message : String(error)
-            }
+            body: createDetailedError(error, 'PUT', url, timeout)
         };
     }
 }
@@ -493,6 +415,11 @@ export async function sendDeleteRequest(url: string, headers: any, pathParams?: 
         // Validate timeout
         if (timeout <= 0) {
             throw new Error(`Invalid timeout value: ${timeout}ms. Timeout must be greater than 0. Recommended value: 30000ms (30 seconds).`);
+        }
+        
+        // Validate headers if provided
+        if (headers && (typeof headers !== 'object' || Array.isArray(headers))) {
+            throw new Error('Headers must be an object containing key-value pairs. Example: {"Content-Type": "application/json"}');
         }
         
         let finalUrl = buildUrlWithPathParams(url, pathParams);
@@ -526,18 +453,7 @@ export async function sendDeleteRequest(url: string, headers: any, pathParams?: 
         if (!apiResponse.ok()) {
             return {
                 status,
-                body: {
-                    error: true,
-                    message: `DELETE request failed with HTTP status ${status}`,
-                    details: `The server responded with status ${status} which indicates an error. Common causes:\n` +
-                             `- Status 400-499: Client errors (bad request, unauthorized, not found, etc.)\n` +
-                             `- Status 500-599: Server errors (internal server error, service unavailable, etc.)\n` +
-                             `URL: ${finalUrl}\n` +
-                             `Response: ${JSON.stringify(responseBody, null, 2)}`,
-                    url: finalUrl,
-                    statusCode: status,
-                    response: responseBody
-                }
+                body: createHttpStatusError('DELETE', status, finalUrl, responseBody)
             };
         }
         
@@ -553,56 +469,9 @@ export async function sendDeleteRequest(url: string, headers: any, pathParams?: 
             }
         }
         
-        // Provide detailed error information based on error type
-        let errorMessage = 'An unexpected error occurred while sending DELETE request.';
-        let errorDetails = '';
-        
-        if (error instanceof Error) {
-            if (error.message.includes('timeout') || error.message.includes('Timeout')) {
-                errorMessage = 'Request timeout';
-                errorDetails = `The DELETE request to ${url} timed out after ${timeout}ms. ` +
-                              `This usually means:\n` +
-                              `- The server is taking too long to respond\n` +
-                              `- The server may be down or unreachable\n` +
-                              `- Network connectivity issues\n` +
-                              `\nSuggestions:\n` +
-                              `- Increase the timeout value if the endpoint is known to be slow\n` +
-                              `- Check if the server is running and accessible\n` +
-                              `- Verify your network connection`;
-            } else if (error.message.includes('ECONNREFUSED')) {
-                errorMessage = 'Connection refused';
-                errorDetails = `Could not connect to ${url}. The connection was refused. ` +
-                              `This usually means:\n` +
-                              `- The server is not running at the specified URL\n` +
-                              `- The port is incorrect\n` +
-                              `- A firewall is blocking the connection\n` +
-                              `\nPlease verify the URL and ensure the server is running.`;
-            } else if (error.message.includes('ENOTFOUND') || error.message.includes('getaddrinfo')) {
-                errorMessage = 'Host not found';
-                errorDetails = `Could not resolve hostname in URL: ${url}. ` +
-                              `This usually means:\n` +
-                              `- The domain name is misspelled\n` +
-                              `- The domain does not exist\n` +
-                              `- DNS resolution issues\n` +
-                              `\nPlease check the URL and try again.`;
-            } else if (error.message.includes('Invalid URL') || error.message.includes('URL is required')) {
-                errorMessage = error.message;
-                errorDetails = '';
-            } else {
-                errorMessage = error.message;
-                errorDetails = `URL: ${url}\nTimeout: ${timeout}ms`;
-            }
-        }
-        
         return {
             status: 0,
-            body: {
-                error: true,
-                message: errorMessage,
-                details: errorDetails,
-                url,
-                originalError: error instanceof Error ? error.message : String(error)
-            }
+            body: createDetailedError(error, 'DELETE', url, timeout)
         };
     }
 }
