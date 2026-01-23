@@ -34,15 +34,43 @@ server.tool("send-post-request", "send the post request", {
 }, async (params) => {
     try {
         const { status, body } = await sendPostRequest(params.url, params.headers, params.data, params.timeout || 30000);
+        
+        // Check if the response contains an error from the utility function
+        if (status === 0 || (body && typeof body === 'object' && body.error === true)) {
+            return {
+                content: [{
+                    type: "text",
+                    text: `❌ POST Request Failed\n\n` +
+                          `${body.message || 'Unknown error'}\n\n` +
+                          `${body.details ? body.details + '\n\n' : ''}` +
+                          `Additional Information:\n` +
+                          `- URL: ${body.url || params.url}\n` +
+                          `- Status Code: ${status}\n` +
+                          `${body.originalError ? `- Original Error: ${body.originalError}\n` : ''}`
+                }],
+                isError: true
+            };
+        }
+        
         return {
             content: [{
                 type: "text",
-                text: `Post request successfully sent\nStatus: ${status}\nResponse: ${JSON.stringify(body, null, 2)}`
+                text: `✅ POST Request Successful\n\n` +
+                      `Status Code: ${status}\n\n` +
+                      `Response:\n${JSON.stringify(body, null, 2)}`
             }]
         };
     } catch (error) {
         return {
-            content: [{ type: "text", text: `Error occurred while sending POST request: ${error instanceof Error ? error.message : String(error)}` }]
+            content: [{
+                type: "text",
+                text: `❌ Unexpected Error in POST Request\n\n` +
+                      `An unexpected error occurred while processing the POST request.\n\n` +
+                      `Error Details: ${error instanceof Error ? error.message : String(error)}\n\n` +
+                      `URL: ${params.url}\n\n` +
+                      `This is likely a programming error. Please report this issue if it persists.`
+            }],
+            isError: true
         };
     }
 });
@@ -66,15 +94,43 @@ server.tool("send-get-request", "send the get request", {
 }, async (params) => {
     try {
         const { status, body } = await sendGetRequest(params.url, params.headers, params.pathParams, params.queryParams, params.timeout || 30000);
+        
+        // Check if the response contains an error from the utility function
+        if (status === 0 || (body && typeof body === 'object' && body.error === true)) {
+            return {
+                content: [{
+                    type: "text",
+                    text: `❌ GET Request Failed\n\n` +
+                          `${body.message || 'Unknown error'}\n\n` +
+                          `${body.details ? body.details + '\n\n' : ''}` +
+                          `Additional Information:\n` +
+                          `- URL: ${body.url || params.url}\n` +
+                          `- Status Code: ${status}\n` +
+                          `${body.originalError ? `- Original Error: ${body.originalError}\n` : ''}`
+                }],
+                isError: true
+            };
+        }
+        
         return {
             content: [{
                 type: "text",
-                text: `Get request successfully sent\nStatus: ${status}\nResponse: ${JSON.stringify(body, null, 2)}`
+                text: `✅ GET Request Successful\n\n` +
+                      `Status Code: ${status}\n\n` +
+                      `Response:\n${JSON.stringify(body, null, 2)}`
             }]
         };
     } catch (error) {
         return {
-            content: [{ type: "text", text: `Error occurred while sending GET request: ${error instanceof Error ? error.message : String(error)}` }]
+            content: [{
+                type: "text",
+                text: `❌ Unexpected Error in GET Request\n\n` +
+                      `An unexpected error occurred while processing the GET request.\n\n` +
+                      `Error Details: ${error instanceof Error ? error.message : String(error)}\n\n` +
+                      `URL: ${params.url}\n\n` +
+                      `This is likely a programming error. Please report this issue if it persists.`
+            }],
+            isError: true
         };
     }
 });
@@ -99,15 +155,43 @@ server.tool("send-put-request", "send the put request", {
 }, async (params) => {
     try {
         const { status, body } = await sendPutRequest(params.url, params.headers, params.data, params.pathParams, params.queryParams, params.timeout || 30000);
+        
+        // Check if the response contains an error from the utility function
+        if (status === 0 || (body && typeof body === 'object' && body.error === true)) {
+            return {
+                content: [{
+                    type: "text",
+                    text: `❌ PUT Request Failed\n\n` +
+                          `${body.message || 'Unknown error'}\n\n` +
+                          `${body.details ? body.details + '\n\n' : ''}` +
+                          `Additional Information:\n` +
+                          `- URL: ${body.url || params.url}\n` +
+                          `- Status Code: ${status}\n` +
+                          `${body.originalError ? `- Original Error: ${body.originalError}\n` : ''}`
+                }],
+                isError: true
+            };
+        }
+        
         return {
             content: [{
                 type: "text",
-                text: `Put request successfully sent\nStatus: ${status}\nResponse: ${JSON.stringify(body, null, 2)}`
+                text: `✅ PUT Request Successful\n\n` +
+                      `Status Code: ${status}\n\n` +
+                      `Response:\n${JSON.stringify(body, null, 2)}`
             }]
         };
     } catch (error) {
         return {
-            content: [{ type: "text", text: `Error occurred while sending PUT request: ${error instanceof Error ? error.message : String(error)}` }]
+            content: [{
+                type: "text",
+                text: `❌ Unexpected Error in PUT Request\n\n` +
+                      `An unexpected error occurred while processing the PUT request.\n\n` +
+                      `Error Details: ${error instanceof Error ? error.message : String(error)}\n\n` +
+                      `URL: ${params.url}\n\n` +
+                      `This is likely a programming error. Please report this issue if it persists.`
+            }],
+            isError: true
         };
     }
 });
@@ -131,15 +215,43 @@ server.tool("send-delete-request", "send the delete request", {
 }, async (params) => {
     try {
         const { status, body } = await sendDeleteRequest(params.url, params.headers, params.pathParams, params.queryParams,params.timeout || 30000);
+        
+        // Check if the response contains an error from the utility function
+        if (status === 0 || (body && typeof body === 'object' && body.error === true)) {
+            return {
+                content: [{
+                    type: "text",
+                    text: `❌ DELETE Request Failed\n\n` +
+                          `${body.message || 'Unknown error'}\n\n` +
+                          `${body.details ? body.details + '\n\n' : ''}` +
+                          `Additional Information:\n` +
+                          `- URL: ${body.url || params.url}\n` +
+                          `- Status Code: ${status}\n` +
+                          `${body.originalError ? `- Original Error: ${body.originalError}\n` : ''}`
+                }],
+                isError: true
+            };
+        }
+        
         return {
             content: [{
                 type: "text",
-                text: `Delete request successfully sent\nStatus: ${status}\nResponse: ${JSON.stringify(body, null, 2)}`
+                text: `✅ DELETE Request Successful\n\n` +
+                      `Status Code: ${status}\n\n` +
+                      `Response:\n${JSON.stringify(body, null, 2)}`
             }]
         };
     } catch (error) {
         return {
-            content: [{ type: "text", text: `Error occurred while sending DELETE request: ${error instanceof Error ? error.message : String(error)}` }]
+            content: [{
+                type: "text",
+                text: `❌ Unexpected Error in DELETE Request\n\n` +
+                      `An unexpected error occurred while processing the DELETE request.\n\n` +
+                      `Error Details: ${error instanceof Error ? error.message : String(error)}\n\n` +
+                      `URL: ${params.url}\n\n` +
+                      `This is likely a programming error. Please report this issue if it persists.`
+            }],
+            isError: true
         };
     }
 });
@@ -156,9 +268,26 @@ server.tool("send-delete-request", "send the delete request", {
  * @author Veeranki Naveen Goud
  */
 async function main(): Promise<void> {
-    const transport = new StdioServerTransport()
-    await server.connect(transport);
-    console.log("MCP Server is running...");
+    try {
+        const transport = new StdioServerTransport();
+        await server.connect(transport);
+        console.error("✅ MCP Server is running successfully...");
+    } catch (error) {
+        console.error("❌ Failed to start MCP Server");
+        console.error("Error details:", error instanceof Error ? error.message : String(error));
+        console.error("\nPossible causes:");
+        console.error("- The server port might already be in use");
+        console.error("- Required dependencies might not be installed");
+        console.error("- Configuration issues in the MCP setup");
+        console.error("\nPlease check the error message above and verify your setup.");
+        process.exit(1);
+    }
 }
 
-main();
+main().catch((error) => {
+    console.error("❌ Unhandled error in main process");
+    console.error("Error:", error instanceof Error ? error.message : String(error));
+    console.error("\nThe MCP server encountered an unexpected error and will now exit.");
+    console.error("If this issue persists, please report it with the error details above.");
+    process.exit(1);
+});
